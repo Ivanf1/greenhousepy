@@ -1,3 +1,4 @@
+from operator import truediv
 from unittest import TestCase
 from unittest.mock import patch
 from unittest.mock import Mock
@@ -59,6 +60,13 @@ class TestGreenhouse(TestCase):
         gn.manage_sprinkler()
         mock_sprinkler.assert_called_once_with(gn.SPRINKLER_PIN, False)
         self.assertFalse(gn.sprinkler_on)
+
+    @patch.object(GPIO, "input")
+    def test_check_too_much_light(self,  mock_photoresistor: Mock):
+        mock_photoresistor.return_value = True
+        gn = Greenhouse()
+        self.assertTrue(gn.check_too_much_light())
+
 
 
 
