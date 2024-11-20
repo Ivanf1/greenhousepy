@@ -7,7 +7,6 @@ except:
     import mock.board as board
     import mock.seesaw as seesaw
 
-
 class Greenhouse:
 
     SPRINKLER_PIN = 12
@@ -27,8 +26,10 @@ class Greenhouse:
         self.red_light_on = False
 
     def measure_soil_moisture(self) -> int:
-        # To be implemented
-        pass
+        moisture = self.soil_moisture_sensor.moisture_read()
+        if moisture < 300 or moisture > 500:
+            raise GreenhouseError("Soil moisture is out of the valid range")
+        return moisture
 
     def turn_on_sprinkler(self) -> None:
         # To be implemented
