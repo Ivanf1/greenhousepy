@@ -6,11 +6,11 @@ from mock import GPIO
 from mock.seesaw import Seesaw
 from src.greenhouse import Greenhouse, GreenhouseError
 
-
 class TestGreenhouse(TestCase):
 
-    @patch.object(GPIO, "input")
-    def test_something(self, mock_object: Mock):
-        # This is an example of test where I want to mock the GPIO.input() function
-        pass
-
+    @patch.object(Seesaw, "moisture_read")
+    def test_measure_soil_moisture_valid_range(self, mock_moisture_sensor: Mock):
+        mock_moisture_sensor.return_value = 300
+        gn = Greenhouse()
+        m = gn.measure_soil_moisture()
+        self.assertEqual(300, m)
