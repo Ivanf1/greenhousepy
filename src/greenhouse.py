@@ -41,8 +41,9 @@ class Greenhouse:
         self.sprinkler_on = False
 
     def manage_sprinkler(self) -> None:
-        # To be implemented
-        pass
+        moisture = self.measure_soil_moisture()
+        if moisture < 375:
+            self.turn_on_sprinkler()
 
     def check_too_much_light(self) -> bool:
         # To be implemented
