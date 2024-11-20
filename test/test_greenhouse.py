@@ -76,6 +76,15 @@ class TestGreenhouse(TestCase):
         mock_red_light.assert_called_once_with(gn.LED_PIN, True)
         self.assertTrue(gn.red_light_on)
 
+    @patch.object(GPIO, "output")
+    @patch.object(GPIO, "input")
+    def test_manage_lightbulb_should_be_turned_off(self,  mock_photoresistor: Mock, mock_red_light: Mock):
+        mock_photoresistor.return_value = False
+        gn = Greenhouse()
+        gn.manage_lightbulb()
+        mock_red_light.assert_called_once_with(gn.LED_PIN, False)
+        self.assertFalse(gn.red_light_on)
+
 
 
 
