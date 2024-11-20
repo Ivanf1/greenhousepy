@@ -43,12 +43,21 @@ class TestGreenhouse(TestCase):
 
     @patch.object(Seesaw, "moisture_read")
     @patch.object(GPIO, "output")
-    def test_manage_sprinkler_should_be_turned_on(self, mock_sprinkler: Mock, mock_moisture_sensor: Mock):
+    def test_manage_sprinkler_should_be_turned_on_when_below_375(self, mock_sprinkler: Mock, mock_moisture_sensor: Mock):
         mock_moisture_sensor.return_value = 374
         gn = Greenhouse()
         gn.manage_sprinkler()
         mock_sprinkler.assert_called_once_with(gn.SPRINKLER_PIN, True)
         self.assertTrue(gn.sprinkler_on)
+
+    @patch.object(Seesaw, "moisture_read")
+    @patch.object(GPIO, "output")
+    def test_manage_sprinkler_should_be_turned_on_when_above_425(self, mock_sprinkler: Mock, mock_moisture_sensor: Mock):
+        mock_moisture_sensor.return_value = 426
+        gn = Greenhouse()
+        gn.manage_sprinkler()
+        mock_sprinkler.assert_called_once_with(gn.SPRINKLER_PIN, False)
+        self.assertFalse(gn.sprinkler_on)
 
 
 
